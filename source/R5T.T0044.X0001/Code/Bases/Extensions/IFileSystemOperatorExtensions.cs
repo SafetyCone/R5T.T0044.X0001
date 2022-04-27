@@ -10,6 +10,27 @@ namespace System
 {
     public static class IFileSystemOperatorExtensions
     {
+        public static IEnumerable<string> FindProjectFilesInDirectoryOrDirectParentDirectories(this IFileSystemOperator _,
+            string directoryPath)
+        {
+            var output = _.FindFilesInDirectoryOrDirectParentDirectories(
+                directoryPath,
+                Instances.SearchPattern.AllProjectFiles());
+
+            return output;
+        }
+
+        public static IEnumerable<string> FindProjectFilesInFileDirectoryOrDirectParentDirectories(this IFileSystemOperator _,
+            string filePath)
+        {
+            var directoryPath = Instances.PathOperator.GetDirectoryPathOfFilePath(filePath);
+
+            var output = _.FindProjectFilesInDirectoryOrDirectParentDirectories(
+                directoryPath);
+
+            return output;
+        }
+
         public static IEnumerable<string> FindSolutionFilesInDirectoryOrDirectParentDirectories(this IFileSystemOperator _,
             string directoryPath)
         {
